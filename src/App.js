@@ -9,20 +9,9 @@ import {
 	browserHistory,
 	withRouter
 } from 'react-router';
+import  store , * as fromStore from './reducers';
 import logo from './logo.svg';
 import './App.css';
-
-const getVisibleTodos = (todos=[], filter) => {
-	console.log(filter);
-	switch (filter) {
-		case 'all':
-			return todos;
-		case 'completed':
-			return todos.filter(t => t.completed);
-		case 'active':
-			return todos.filter(t => !t.completed);
-	}
-};
 
 /*
  * Actions
@@ -83,8 +72,8 @@ const TodoList = ({
 
 const mapStateToTodoListProps = (state, { params }) => {
 	return {
-		todos: getVisibleTodos(
-			state.todos,
+		todos: fromStore.getVisibleTodos(
+			state,
 			params.filter || 'all'
 		)
 	}
@@ -133,7 +122,7 @@ const TodoApp = () => (
 );
 
 
-const App = ({ store }) => (
+const App = () => (
   <Provider store={store}>
 	  <Router history={browserHistory}>
 		  <Route path="/(:filter)" component={TodoApp}/>
