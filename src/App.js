@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import V4 from 'uuid/v4';
-import { Router, Route, Link, browserHistory } from 'react-router';
+import {
+	Router,
+	Route,
+	Link,
+	browserHistory,
+	withRouter
+} from 'react-router';
 import logo from './logo.svg';
 import './App.css';
 
@@ -75,11 +81,11 @@ const TodoList = ({
   </ul>
 );
 
-const mapStateToTodoListProps = (state, ownProps) => {
+const mapStateToTodoListProps = (state, { params }) => {
 	return {
 		todos: getVisibleTodos(
 			state.todos,
-			ownProps.filter
+			params.filter || 'all'
 		)
 	}
 };
@@ -89,10 +95,10 @@ const mapDispatchToTodoListProps = (dispatch) => ({
 		dispatch(toggleTodo(id))
 });
 
-const VisibleTodoList = connect(
+const VisibleTodoList = withRouter(connect(
 	mapStateToTodoListProps,
 	mapDispatchToTodoListProps
-)(TodoList);
+)(TodoList));
 
 
 const FilterLink = ({ filter, children }) => (
@@ -124,10 +130,10 @@ const Footer = () => {
 	)
 };
 
-const TodoApp = ({ params }) => (
+const TodoApp = () => (
   <div>
     <AddTodo />
-    <VisibleTodoList filter={params.filter || 'all'}/>
+    <VisibleTodoList />
     <Footer />
   </div>
 );

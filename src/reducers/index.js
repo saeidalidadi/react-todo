@@ -48,8 +48,8 @@ const persistentState = {
 		text: 'welcome',
 		id: V4(),
 		completed: false
-	}],
-	visibilityFilter: 'all'
+	}]
+	/*visibilityFilter: 'all'*/
 }
 
 export const store = createStore(todoApp, persistentState);
